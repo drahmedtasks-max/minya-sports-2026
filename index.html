@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>الدليل التشغيلي للنشاط الرياضي - أسبوع شباب الجامعات 14</title>
+    <meta name="description" content="الدليل التشغيلي الميداني واللائحة المنظمة للنشاط الرياضي بأسبوع شباب الجامعات والمعاهد العليا الـ 14 - جامعة المنيا" />
+    <meta property="og:title" content="الدليل التشغيلي للنشاط الرياضي - أسبوع شباب الجامعات 14" />
+    <meta property="og:description" content="الدليل التشغيلي الميداني واللائحة المنظمة للنشاط الرياضي بأسبوع شباب الجامعات والمعاهد العليا الـ 14 - جامعة المنيا" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f59e0b" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="شباب الجامعات 14" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-slate-50 text-slate-800 font-['Cairo',sans-serif] antialiased selection:bg-amber-500 selection:text-white">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+    </script>
+  </body>
+</html>
+

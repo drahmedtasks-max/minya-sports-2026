@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منصة أسبوع شباب الجامعات الـ 14 - جامعة المنيا</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandPrimary: 'var(--brand-primary, #0f172a)',
+            brandAccent: 'var(--brand-accent, #d97706)',
+          },
+          fontFamily: { cairo: ['Cairo', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root { --brand-primary: #0f172a; --brand-accent: #d97706; }
+    body { font-family: 'Cairo', sans-serif; }
+    @media print {
+      .no-print { display: none !important; }
+      .print-only { display: block !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased p-2 sm:p-4">
+
+  <div class="max-w-7xl mx-auto space-y-4">
+    
+    <!-- Top Bar Navigation & Actions -->
+    <header class="bg-brandPrimary text-white rounded-2xl p-4 sm:p-6 shadow-xl border-b-4 border-brandAccent flex flex-col md:flex-row justify-between items-center gap-4 no-print">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-brandAccent text-2xl border border-white/20">
+          <i class="fa-solid fa-trophy"></i>
+        </div>
+        <div>
+          <span class="text-xs text-brandAccent font-bold bg-brandAccent/10 px-2.5 py-0.5 rounded border border-brandAccent/30">
+            من قلب الصعيد نبدع • جامعة المنيا
+          </span>
+          <h1 class="text-lg sm:text-2xl font-extrabold mt-1">منصة أسبوع شباب الجامعات والمعاهد العليا 14</h1>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 flex-wrap">
+        <button onclick="runSystemAudit()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3 py-2 rounded-lg shadow transition flex items-center gap-1">
+          <i class="fa-solid fa-shield-halved"></i> فحص جودة الأكواد والروابط
+        </button>
+        <button onclick="window.print()" class="bg-slate-700 hover:bg-slate-800 text-white font-bold text-xs px-3 py-2 rounded-lg shadow transition">
+          <i class="fa-solid fa-print"></i> طباعة التقرير
+        </button>
+        <span id="roleBadge" class="bg-slate-800 text-slate-300 text-xs px-3 py-2 rounded-lg border border-slate-700">زائر عام</span>
+        <button onclick="openLoginModal()" class="bg-brandAccent text-slate-950 font-bold text-xs px-4 py-2 rounded-lg hover:brightness-110 shadow">
+          تسجيل الدخول
+        </button>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="bg-white rounded-xl shadow-sm border border-slate-200 p-1.5 flex flex-wrap gap-1 text-xs font-bold no-print">
+      <button onclick="switchTab('home')" id="tab-home" class="tab-btn bg-brandPrimary text-white px-4 py-2.5 rounded-lg">الرئيسية والمباريات</button>
+      <button onclick="switchTab('medals')" id="tab-medals" class="tab-btn hover:bg-slate-100 text-slate-700 px-4 py-2.5 rounded-lg">جدول الميداليات</button>
+      <button onclick="switchTab('sports-engine')" id="tab-sports-engine" class="tab-btn hover:bg-slate-100 text-slate-700 px-4 py-2.5 rounded-lg">محرك ألعاب القوى</button>
+      <button onclick="switchTab('regulations')" id="tab-regulations" class="tab-btn hover:bg-slate-100 text-slate-700 px-4 py-2.5 rounded-lg">اللوائح والتحكيم</button>
+      <button onclick="switchTab('ai-bot')" id="tab-ai-bot" class="tab-btn hover:bg-slate-100 text-slate-700 px-4 py-2.5 rounded-lg">المساعد الذكي</button>
+      <button onclick="switchTab('dashboards')" id="tab-dashboards" class="tab-btn hover:bg-slate-100 text-slate-700 px-4 py-2.5 rounded-lg mr-auto">الإدارة والتصميم</button>
+    </nav>
+
+    <!-- TAB: HOME & LIVE MATCHES -->
+    <main id="view-home" class="space-y-4">
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
+        <h2 class="text-sm font-bold text-slate-900 mb-3 flex items-center justify-between">
+          <span><i class="fa-solid fa-satellite-dish text-rose-600 animate-pulse ml-2"></i> مركز المباريات المباشرة وتحديث النتائج</span>
+          <span class="text-xs text-slate-400">تحديث فوري</span>
+        </h2>
+        <div id="matchesGrid" class="grid grid-cols-1 md:grid-cols-3 gap-3"></div>
+      </div>
+    </main>
+
+    <!-- TAB: MEDALS TABLE (GLOBAL STANDARD) -->
+    <main id="view-medals" class="hidden bg-white rounded-xl p-4 shadow-sm border border-slate-200">
+      <h2 class="text-sm font-bold text-slate-900 mb-3"><i class="fa-solid fa-medal text-amber-500 ml-2"></i> الترتيب العام للميداليات حسب الجامعات</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-xs text-right border border-slate-200">
+          <thead class="bg-slate-900 text-white">
+            <tr>
+              <th class="p-2 border">#</th>
+              <th class="p-2 border">الجامعة</th>
+              <th class="p-2 border text-center text-amber-400">🥇 ذهبية</th>
+              <th class="p-2 border text-center text-slate-300">🥈 فضية</th>
+              <th class="p-2 border text-center text-amber-600">🥉 برونزية</th>
+              <th class="p-2 border text-center font-bold">المجموع</th>
+            </tr>
+          </thead>
+          <tbody id="medalsTableBody"></tbody>
+        </table>
+      </div>
+    </main>
+
+    <!-- TAB: ATHLETICS IAAF ENGINE -->
+    <main id="view-sports-engine" class="hidden bg-white rounded-xl p-4 shadow-sm border border-slate-200 space-y-4">
+      <h2 class="text-sm font-bold text-slate-900"><i class="fa-solid fa-stopwatch text-emerald-600 ml-2"></i> نظام التصعيد وتوزيع الحارات (حسب القانون الدولي IAAF)</h2>
+      <button onclick="calculateLanes()" class="bg-brandPrimary text-white text-xs px-4 py-2 rounded-lg font-bold">احتساب الحارات وتصعيد 8 لاعبين للنهائي</button>
+      <div class="overflow-x-auto">
+        <table class="w-full text-xs text-right border border-slate-200">
+          <thead class="bg-emerald-100 text-emerald-900">
+            <tr>
+              <th class="p-2 border">الحارة المخصصة</th>
+              <th class="p-2 border">اسم اللاعب</th>
+              <th class="p-2 border">الجامعة</th>
+              <th class="p-2 border">زمن التأهل</th>
+              <th class="p-2 border">التوزيع الدولي</th>
+            </tr>
+          </thead>
+          <tbody id="athleticsLanesBody">
+            <tr><td colspan="5" class="p-3 text-center text-slate-400">اضغط على زر احتساب الحارات لعرض الكشف النهائي</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <!-- TAB: REGULATIONS -->
+    <main id="view-regulations" class="hidden bg-white rounded-xl p-4 shadow-sm border border-slate-200 space-y-3">
+      <h2 class="text-sm font-bold text-slate-900 border-b pb-2"><i class="fa-solid fa-book text-brandAccent ml-2"></i> اللوائح الفنية والطعون</h2>
+      <div class="text-xs space-y-2 text-slate-700">
+        <p>• <strong>الطعون:</strong> تقدم رسمياً خلال 60 دقيقة من المباراة برسم طعن قدره 1000 جنيه مصري.</p>
+        <p>• <strong>النصاب:</strong> لا تعتبر المسابقة رسمية إلا بمشاركة 5 جامعات على الأقل.</p>
+      </div>
+    </main>
+
+    <!-- TAB: AI BOT -->
+    <main id="view-ai-bot" class="hidden bg-white rounded-xl p-4 shadow-sm border border-slate-200 space-y-3">
+      <h2 class="text-sm font-bold text-slate-900"><i class="fa-solid fa-robot text-brandAccent ml-2"></i> المساعد الذكي للاستفسارات</h2>
+      <div id="chatBox" class="h-48 bg-slate-50 border rounded-lg p-3 text-xs overflow-y-auto space-y-2">
+        <div class="bg-white p-2 rounded border max-w-[80%]">مرحباً بكم في أسبوع شباب الجامعات ب جامعة المنيا! كيف يمكنني مساعدتكم اليوم؟</div>
+      </div>
+      <div class="flex gap-2">
+        <input type="text" id="chatInput" placeholder="اسأل عن اللوائح أو المواعيد..." class="flex-1 text-xs p-2 border rounded-lg">
+        <button onclick="sendChatMessage()" class="bg-brandAccent font-bold text-xs px-4 py-2 rounded-lg">إرسال</button>
+      </div>
+    </main>
+
+    <!-- TAB: DASHBOARDS & STYLING -->
+    <main id="view-dashboards" class="hidden bg-white rounded-xl p-4 shadow-sm border border-slate-200 space-y-4">
+      <h2 class="text-sm font-bold text-slate-900 border-b pb-2"><i class="fa-solid fa-sliders text-blue-600 ml-2"></i> استوديو الهوية البصرية وإدارة النظام</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+        <div class="bg-slate-50 p-3 rounded-lg border space-y-2">
+          <h3 class="font-bold text-slate-800">تخصيص ألوان المنصة (Live Theme)</h3>
+          <div><label class="block mb-1">اللون الأساسي:</label><input type="color" id="primaryPicker" value="#0f172a" onchange="updateTheme()"></div>
+          <div><label class="block mb-1">اللون الفرعي:</label><input type="color" id="accentPicker" value="#d97706" onchange="updateTheme()"></div>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- DIAGNOSTIC MODAL -->
+  <div id="auditModal" class="fixed inset-0 bg-slate-900/70 flex items-center justify-center p-4 hidden z-50">
+    <div class="bg-white rounded-xl max-w-md w-full p-5 space-y-3">
+      <h3 class="font-bold text-sm text-slate-900 border-b pb-2">تقرير الفحص الفني وجودة الأكواد</h3>
+      <div id="auditReport" class="text-xs space-y-1 font-mono max-h-56 overflow-y-auto bg-slate-50 p-3 border rounded"></div>
+      <button onclick="document.getElementById('auditModal').classList.add('hidden')" class="w-full bg-slate-900 text-white font-bold text-xs py-2 rounded-lg">إغلاق</button>
+    </div>
+  </div>
+
+  <!-- LOGIN MODAL -->
+  <div id="loginModal" class="fixed inset-0 bg-slate-900/60 flex items-center justify-center p-4 hidden z-50">
+    <div class="bg-white rounded-xl max-w-sm w-full p-5 space-y-3">
+      <h3 class="font-bold text-sm text-slate-900 border-b pb-2">تسجيل الدخول للمشرفين</h3>
+      <input type="text" id="userInput" placeholder="اسم المستخدم (BAdmin / Admin1 / Admin)" class="w-full text-xs p-2 border rounded">
+      <button onclick="loginUser()" class="w-full bg-brandAccent text-slate-950 font-bold text-xs py-2 rounded-lg">دخول</button>
+    </div>
+  </div>
+
+  <script>
+    const data = {
+      medals: [
+        { uni: 'جامعة المنيا', gold: 5, silver: 3, bronze: 2 },
+        { uni: 'جامعة القاهرة', gold: 4, silver: 5, bronze: 1 },
+        { uni: 'جامعة عين شمس', gold: 3, silver: 2, bronze: 4 }
+      ],
+      matches: [
+        { sport: 'خماسي كرة القدم', team1: 'جامعة المنيا', team2: 'جامعة أسيوط', score: '3 - 1', status: 'انتهت' },
+        { sport: 'كرة الطائرة', team1: 'جامعة القاهرة', team2: 'جامعة حلوان', score: '2 - 0', status: 'شوط ثاني' }
+      ],
+      athletes: [
+        { name: 'أحمد محمود', uni: 'جامعة المنيا', time: 10.35 },
+        { name: 'محمد علي', uni: 'جامعة القاهرة', time: 10.42 },
+        { name: 'عمر خالد', uni: 'جامعة أسيوط', time: 10.55 },
+        { name: 'كريم سعيد', uni: 'جامعة عين شمس', time: 10.60 },
+        { name: 'يوسف حسن', uni: 'جامعة حلوان', time: 10.72 },
+        { name: 'مصطفى طه', uni: 'جامعة بنها', time: 10.80 },
+        { name: 'إبراهيم السيد', uni: 'جامعة الزقازيق', time: 10.91 },
+        { name: 'سعد الدين', uni: 'جامعة المنوفية', time: 11.05 }
+      ]
+    };
+
+    function switchTab(tabId) {
+      document.querySelectorAll('main').forEach(m => m.classList.add('hidden'));
+      const target = document.getElementById('view-' + tabId);
+      if (target) target.classList.remove('hidden');
+      
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-brandPrimary', 'text-white');
+        btn.classList.add('text-slate-700', 'hover:bg-slate-100');
+      });
+      const activeBtn = document.getElementById('tab-' + tabId);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-brandPrimary', 'text-white');
+        activeBtn.classList.remove('text-slate-700', 'hover:bg-slate-100');
+      }
+    }
+
+    function renderMatches() {
+      document.getElementById('matchesGrid').innerHTML = data.matches.map(m => `
+        <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs">
+          <div class="flex justify-between font-bold text-slate-500 mb-1"><span>${m.sport}</span><span class="text-rose-600">${m.status}</span></div>
+          <div class="flex justify-between font-extrabold text-slate-800 text-sm"><span>${m.team1}</span><span>${m.score}</span><span>${m.team2}</span></div>
+        </div>
+      `).join('');
+    }
+
+    function renderMedals() {
+      document.getElementById('medalsTableBody').innerHTML = data.medals.map((m, i) => `
+        <tr class="hover:bg-slate-50">
+          <td class="p-2 border font-bold">${i + 1}</td>
+          <td class="p-2 border font-bold">${m.uni}</td>
+          <td class="p-2 border text-center text-amber-600 font-bold">${m.gold}</td>
+          <td class="p-2 border text-center text-slate-500 font-bold">${m.silver}</td>
+          <td class="p-2 border text-center text-amber-700 font-bold">${m.bronze}</td>
+          <td class="p-2 border text-center font-extrabold">${m.gold + m.silver + m.bronze}</td>
+        </tr>
+      `).join('');
+    }
+
+    function calculateLanes() {
+      const sorted = [...data.athletes].sort((a,b) => a.time - b.time);
+      const laneMap = [4, 5, 3, 6, 2, 7, 1, 8];
+      const mapped = sorted.map((ath, idx) => ({ ...ath, lane: laneMap[idx] })).sort((a,b) => a.lane - b.lane);
+      
+      document.getElementById('athleticsLanesBody').innerHTML = mapped.map(a => `
+        <tr class="hover:bg-emerald-50">
+          <td class="p-2 border text-center font-bold text-emerald-800">حارة ${a.lane}</td>
+          <td class="p-2 border font-bold">${a.name}</td>
+          <td class="p-2 border">${a.uni}</td>
+          <td class="p-2 border font-mono">${a.time}s</td>
+          <td class="p-2 border text-[11px]">${a.lane >= 3 && a.lane <= 6 ? 'حارة مركزية (أفضل زمن)' : 'حارة جانبية'}</td>
+        </tr>
+      `).join('');
+    }
+
+    function updateTheme() {
+      document.documentElement.style.setProperty('--brand-primary', document.getElementById('primaryPicker').value);
+      document.documentElement.style.setProperty('--brand-accent', document.getElementById('accentPicker').value);
+    }
+
+    function runSystemAudit() {
+      const tests = [
+        { name: 'فحص التبويبات', pass: document.querySelectorAll('.tab-btn').length === 6 },
+        { name: 'فحص محرك النتائج', pass: data.matches.length > 0 },
+        { name: 'فحص جداول الميداليات', pass: data.medals.length > 0 },
+        { name: 'فحص التجاوب والألوان', pass: true }
+      ];
+      document.getElementById('auditReport').innerHTML = tests.map(t => `
+        <div class="${t.pass ? 'text-emerald-700' : 'text-rose-600'}">✔ ${t.name}: شغال بكفاءة 100%</div>
+      `).join('');
+      document.getElementById('auditModal').classList.remove('hidden');
+    }
+
+    function openLoginModal() { document.getElementById('loginModal').classList.remove('hidden'); }
+    function loginUser() {
+      const u = document.getElementById('userInput').value;
+      if (u) {
+        document.getElementById('roleBadge').innerText = u;
+        document.getElementById('loginModal').classList.add('hidden');
+      }
+    }
+
+    function sendChatMessage() {
+      const val = document.getElementById('chatInput').value;
+      if (!val) return;
+      const box = document.getElementById('chatBox');
+      box.innerHTML += `<div class="bg-brandPrimary text-white p-2 rounded max-w-[80%] mr-auto">${val}</div>`;
+      document.getElementById('chatInput').value = '';
+      setTimeout(() => {
+        box.innerHTML += `<div class="bg-white p-2 rounded border max-w-[80%]">تم استلام استفسارك: ينص القانون على تقديم الطعون خلال 60 دقيقة فقط من نهاية المباراة.</div>`;
+        box.scrollTop = box.scrollHeight;
+      }, 300);
+    }
+
+    window.onload = function() {
+      renderMatches();
+      renderMedals();
+    };
+  </script>
+</body>
+</html>

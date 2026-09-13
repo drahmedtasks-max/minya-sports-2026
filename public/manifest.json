@@ -1,0 +1,28 @@
+{
+  "id": "/",
+  "name": "أسبوع شباب الجامعات الـ 14 - جامعة المنيا",
+  "short_name": "شباب الجامعات",
+  "description": "الدليل التشغيلي الميداني والمنصة الرياضية الذكية لأسبوع شباب الجامعات الـ 14 بجامعة المنيا",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#090d16",
+  "theme_color": "#f59e0b",
+  "dir": "rtl",
+  "lang": "ar",
+  "icons": [
+    {
+      "src": "/assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

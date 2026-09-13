@@ -1,0 +1,6 @@
+{
+  "name": "الدليل التشغيلي للنشاط الرياضي - أسبوع شباب الجامعات 14",
+  "description": "الدليل التشغيلي الميداني واللائحة المنظمة للنشاط الرياضي بأسبوع شباب الجامعات والمعاهد العليا الـ 14 - جامعة المنيا",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
